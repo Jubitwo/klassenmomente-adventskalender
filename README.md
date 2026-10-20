@@ -1,8 +1,14 @@
-# Klassenmomente · Unser Weihnachtskalender
+# WKSV · Unser Weihnachtskalender
 
 Eine eigenständige, responsive Adventskalender-App mit 24 austauschbaren Inhalten,
 Lehrereditor, barrierearmem Modal, optionalem Schnee und optionaler, lokal erzeugter
 Wintermelodie. Keine Abhängigkeiten, kein Build, kein Tracking.
+
+Die Hauptseite ist für die Schulgemeinschaft des **WKSV –
+Walter-Knoll-Schulverbund (Realschule & Werkrealschule)** gestaltet. Schullogo,
+Kopfzeile, Begrüßung, Browser-Titel und Abschlussgruß benennen den Schulverbund.
+Das technische Repository behält seinen bisherigen Namen. Die Gestaltung
+ändert keine lokal bearbeiteten oder bereits veröffentlichten Türcheninhalte.
 
 ## Online
 

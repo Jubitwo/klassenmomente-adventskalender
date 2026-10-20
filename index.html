@@ -4,19 +4,19 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#102f30">
-  <meta name="description" content="24 kleine Auszeiten, Rätsel und Überraschungen für unsere Klasse.">
-  <title>Unser Weihnachtskalender</title>
+  <meta name="description" content="Der Weihnachtskalender des WKSV – Walter-Knoll-Schulverbund. 24 Türchen voller Rätsel, Ideen und Überraschungen für unsere Schulgemeinschaft.">
+  <title>WKSV · Unser Weihnachtskalender</title>
   <link rel="icon" href="./assets/star.svg" type="image/svg+xml">
   <link rel="stylesheet" href="./style.css">
   <script type="module" src="./app.js"></script>
 </head>
-<body>
+<body class="school-calendar">
   <div class="snow" aria-hidden="true"></div>
   <div class="light-string" aria-hidden="true"></div>
   <header class="topbar wrap">
     <a class="brand school-brand" href="./index.html" aria-label="Walter-Knoll-Schulverbund – zum Weihnachtskalender">
       <span class="school-logo"><img src="./assets/wks-logo.png" width="629" height="414" alt="Walter-Knoll-Schulverbund – Realschule &amp; Werkrealschule"></span>
-      <span class="brand-text"><span class="brand-name">KLASSENMOMENTE</span><span class="brand-context">Unser Adventskalender</span></span>
+      <span class="brand-text"><span class="brand-name">WKSV · ADVENT</span><span class="brand-context">Walter-Knoll-Schulverbund</span></span>
     </a>
     <div class="top-actions">
       <button id="snow-toggle" class="icon-button" type="button" aria-pressed="true" aria-label="Schneefall ausschalten">❄</button>
@@ -25,9 +25,11 @@
   </header>
   <main class="wrap">
     <section class="hero" aria-labelledby="page-title">
-      <div class="eyebrow"><span></span> EINE KLEINE AUSZEIT. JEDEN TAG.</div>
+      <div class="eyebrow"><span></span> GEMEINSAM DURCH DEN ADVENT</div>
       <h1 id="page-title">Unser<br><em>Weihnachtskalender</em></h1>
+      <p class="hero-school">Ein Advent voller kleiner Momente am <abbr title="Walter-Knoll-Schulverbund">WKSV</abbr>.</p>
       <p class="hero-description">Jeden Tag wartet eine neue Überraschung auf dich.</p>
+      <p class="hero-welcome">Für alle, die unseren Walter-Knoll-Schulverbund ausmachen:<br>24 Türchen zum Knobeln, Entdecken und Freude teilen.</p>
       <div class="hero-meta"><span id="current-date"></span><span class="meta-dot">·</span><span id="season-label"></span></div>
       <div class="branch branch-left" aria-hidden="true"></div>
       <div class="branch branch-right" aria-hidden="true"></div>
@@ -35,15 +37,16 @@
     </section>
     <section class="calendar-section" aria-label="Adventskalender mit 24 Türchen">
       <div class="calendar-toolbar">
-        <div><span class="section-label">DEIN DEZEMBER</span><p id="availability-note">Der Kalender wird geladen …</p></div>
+        <div><span class="section-label">24 TÜRCHEN · EIN SCHULVERBUND</span><p id="availability-note">Der Kalender wird geladen …</p></div>
         <div class="progress-block"><span id="progress-label">0 von 24 Türchen geöffnet</span><progress id="progress" max="24" value="0" aria-label="Geöffnete Türchen"></progress></div>
       </div>
+      <p class="calendar-help">Wähle ein freigegebenes Türchen und entdecke, was dahintersteckt. Vergangene Türchen kannst du jederzeit wieder öffnen.</p>
       <div id="calendar-grid" class="calendar-grid" aria-busy="true"></div>
       <p id="app-status" class="status" role="status" aria-live="polite"></p>
     </section>
-    <div class="closing-note"><span aria-hidden="true">✧</span><p>Die schönsten Geschenke sind die Momente,<br>die wir miteinander teilen.</p><span aria-hidden="true">✧</span></div>
+    <div class="closing-note"><span aria-hidden="true">✧</span><div><p>Die schönsten Geschenke sind die Momente,<br>die wir miteinander teilen.</p><span class="school-signoff">EINE SCHÖNE ADVENTSZEIT WÜNSCHT EUCH DER WKSV</span></div><span aria-hidden="true">✧</span></div>
   </main>
-  <footer class="site-footer wrap"><span>Mit Vorfreude gemacht. Für unsere Klasse.</span><a href="./admin.html">Lehrerbereich <span aria-hidden="true">↗</span></a></footer>
+  <footer class="site-footer wrap"><span>WKSV · Walter-Knoll-Schulverbund<br>Realschule &amp; Werkrealschule</span><a href="./admin.html">Lehrerbereich <span aria-hidden="true">↗</span></a></footer>
   <dialog id="door-dialog" class="door-dialog" aria-labelledby="door-title">
     <button class="dialog-close icon-button" type="button" aria-label="Türchen schließen">×</button>
     <div id="door-content"></div>
