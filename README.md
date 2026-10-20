@@ -55,9 +55,11 @@ Das bereitgestellte Logo des Walter-Knoll-Schulverbunds steht in
 `assets/wks-logo.png` und erscheint als gemeinsamer Absender in der Kopfzeile
 von Kalender und Lehrerbereich. Es verlinkt jeweils zum Kalender.
 Für die Webdatei wurden nur transparente Außenränder entfernt; Farben,
-Proportionen und Bildinhalt bleiben unverändert. Eine weiße Hintergrundfläche
-sichert die Lesbarkeit der dunklen Schrift im Winterdesign. Auf kleinen
-Bildschirmen steht die Kalenderbezeichnung unter dem Logo.
+Proportionen und Bildinhalt bleiben unverändert. Das Logo steht hervorgehoben
+oben rechts auf einer milchig-transparenten, weichgezeichneten Fläche,
+die die Lesbarkeit der dunklen Schrift im Winterdesign sichert.
+Kalenderbezeichnung und Bedienelemente stehen links; das Logo passt sich
+auf kleinen Bildschirmen proportional an.
 Das Schullogo bleibt ein bereitgestelltes Markenbild; daraus ergibt sich keine
 allgemeine Erlaubnis zur Weiterverwendung außerhalb dieses Schulkalenders.
 
