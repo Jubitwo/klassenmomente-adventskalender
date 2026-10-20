@@ -23,7 +23,7 @@ button:disabled { cursor: wait; opacity: .65; }
 .topbar { min-height: 96px; display: flex; justify-content: space-between; align-items: center; gap: 20px; border-bottom: 1px solid var(--border); position: relative; z-index: 2; }
 .brand { font-size: 11px; font-weight: 650; letter-spacing: 2.1px; text-decoration: none; display: flex; align-items: center; gap: 12px; }
 .header-intro { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; min-width: 0; padding: 20px 0; }
-.school-logo { display: block; flex-shrink: 0; margin: 16px 0; padding: 16px 22px; border: 1px solid #ffffff80; border-radius: 12px; background: #ffffffe0; -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); box-shadow: 0 8px 28px #00000020, inset 0 1px 0 #ffffff80; }
+.school-logo { display: block; flex-shrink: 0; margin: 16px 0; padding: 16px 22px; border: 1px solid #ffffff80; border-radius: 12px; background: rgb(255 255 255 / 50%); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); box-shadow: 0 8px 28px #00000020, inset 0 1px 0 #ffffff80; }
 .school-logo img { display: block; width: 156px; height: auto; }
 .brand-text { display: flex; flex-direction: column; gap: 5px; }
 .brand-name { font-size: 11px; letter-spacing: 2.1px; }

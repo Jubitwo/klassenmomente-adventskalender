@@ -5,7 +5,7 @@ Lehrereditor, barrierearmem Modal, optionalem Schnee und optionaler, lokal erzeu
 Wintermelodie. Keine Abhängigkeiten, kein Build, kein Tracking.
 
 Die Hauptseite ist für die Schulgemeinschaft des **WKSV –
-Walter-Knoll-Schulverbund (Realschule & Werkrealschule)** gestaltet. Schullogo,
+Walter Knoll Schulverbund (Realschule & Werkrealschule)** gestaltet. Schullogo,
 Kopfzeile, Begrüßung, Browser-Titel und Abschlussgruß benennen den Schulverbund.
 Das technische Repository behält seinen bisherigen Namen. Die Gestaltung
 ändert keine lokal bearbeiteten oder bereits veröffentlichten Türcheninhalte.
@@ -51,12 +51,12 @@ Web Crypto benötigt HTTPS oder localhost.
 
 ## Schullogo
 
-Das bereitgestellte Logo des Walter-Knoll-Schulverbunds steht in
+Das bereitgestellte Logo des Walter Knoll Schulverbunds steht in
 `assets/wks-logo.png` und erscheint als gemeinsamer Absender in der Kopfzeile
 von Kalender und Lehrerbereich. Es verlinkt jeweils zum Kalender.
 Für die Webdatei wurden nur transparente Außenränder entfernt; Farben,
 Proportionen und Bildinhalt bleiben unverändert. Das Logo steht hervorgehoben
-oben rechts auf einer milchig-transparenten, weichgezeichneten Fläche,
+oben rechts auf einer milchig-transparenten, weichgezeichneten weißen Fläche mit 50 % Deckkraft,
 die die Lesbarkeit der dunklen Schrift im Winterdesign sichert.
 Kalenderbezeichnung und Bedienelemente stehen links; das Logo passt sich
 auf kleinen Bildschirmen proportional an.
