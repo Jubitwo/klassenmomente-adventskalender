@@ -40,7 +40,19 @@ Web Crypto benötigt HTTPS oder localhost.
 | `storage.js` | Validierung und austauschbare, asynchrone Datenzugriffsschicht |
 | `ui.js` | Gemeinsame Inhaltsanzeige, Modal und optionale Atmosphäre |
 | `auth.js`, `auth-config.js` | PBKDF2-Passwortprüfung und zeitlich begrenzter UI-Sitzungsmarker |
-| `assets/` | Selbst enthaltene SVG-Motive, ohne externe Bild- oder Schriftanbieter |
+| `assets/` | Bereitgestelltes Schullogo und eigene SVG-Motive, ohne externe Bild- oder Schriftanbieter |
+
+## Schullogo
+
+Das bereitgestellte Logo des Walter-Knoll-Schulverbunds steht in
+`assets/wks-logo.png` und erscheint als gemeinsamer Absender in der Kopfzeile
+von Kalender und Lehrerbereich. Es verlinkt jeweils zum Kalender.
+Für die Webdatei wurden nur transparente Außenränder entfernt; Farben,
+Proportionen und Bildinhalt bleiben unverändert. Eine weiße Hintergrundfläche
+sichert die Lesbarkeit der dunklen Schrift im Winterdesign. Auf kleinen
+Bildschirmen steht die Kalenderbezeichnung unter dem Logo.
+Das Schullogo bleibt ein bereitgestelltes Markenbild; daraus ergibt sich keine
+allgemeine Erlaubnis zur Weiterverwendung außerhalb dieses Schulkalenders.
 
 ## Lehrkraft: Inhalte bearbeiten
 
