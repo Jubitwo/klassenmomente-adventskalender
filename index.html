@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#102f30">
+  <meta name="description" content="24 kleine Auszeiten, Rätsel und Überraschungen für unsere Klasse.">
+  <title>Unser Weihnachtskalender</title>
+  <link rel="icon" href="./assets/star.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./style.css">
+  <script type="module" src="./app.js"></script>
+</head>
+<body>
+  <div class="snow" aria-hidden="true"></div>
+  <div class="light-string" aria-hidden="true"></div>
+  <header class="topbar wrap">
+    <a class="brand" href="./index.html"><span class="brand-symbol" aria-hidden="true">✧</span> KLASSENMOMENTE <span class="brand-divider">/</span> ADVENT</a>
+    <div class="top-actions">
+      <button id="snow-toggle" class="icon-button" type="button" aria-pressed="true" aria-label="Schneefall ausschalten">❄</button>
+      <button id="music-toggle" class="icon-button" type="button" aria-pressed="false" aria-label="Wintermelodie einschalten">♫</button>
+    </div>
+  </header>
+  <main class="wrap">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="eyebrow"><span></span> EINE KLEINE AUSZEIT. JEDEN TAG.</div>
+      <h1 id="page-title">Unser<br><em>Weihnachtskalender</em></h1>
+      <p class="hero-description">Jeden Tag wartet eine neue Überraschung auf dich.</p>
+      <div class="hero-meta"><span id="current-date"></span><span class="meta-dot">·</span><span id="season-label"></span></div>
+      <div class="branch branch-left" aria-hidden="true"></div>
+      <div class="branch branch-right" aria-hidden="true"></div>
+      <span class="hero-star" aria-hidden="true">✧</span>
+    </section>
+    <section class="calendar-section" aria-label="Adventskalender mit 24 Türchen">
+      <div class="calendar-toolbar">
+        <div><span class="section-label">DEIN DEZEMBER</span><p id="availability-note">Der Kalender wird geladen …</p></div>
+        <div class="progress-block"><span id="progress-label">0 von 24 Türchen geöffnet</span><progress id="progress" max="24" value="0" aria-label="Geöffnete Türchen"></progress></div>
+      </div>
+      <div id="calendar-grid" class="calendar-grid" aria-busy="true"></div>
+      <p id="app-status" class="status" role="status" aria-live="polite"></p>
+    </section>
+    <div class="closing-note"><span aria-hidden="true">✧</span><p>Die schönsten Geschenke sind die Momente,<br>die wir miteinander teilen.</p><span aria-hidden="true">✧</span></div>
+  </main>
+  <footer class="site-footer wrap"><span>Mit Vorfreude gemacht. Für unsere Klasse.</span><a href="./admin.html">Lehrerbereich <span aria-hidden="true">↗</span></a></footer>
+  <dialog id="door-dialog" class="door-dialog" aria-labelledby="door-title">
+    <button class="dialog-close icon-button" type="button" aria-label="Türchen schließen">×</button>
+    <div id="door-content"></div>
+  </dialog>
+  <noscript><p class="notice wrap">Bitte aktiviere JavaScript, um den Kalender zu verwenden.</p></noscript>
+</body>
+</html>

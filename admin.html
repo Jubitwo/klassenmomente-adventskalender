@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#102f30">
+  <meta name="robots" content="noindex">
+  <title>Lehrerbereich · Klassenmomente</title>
+  <link rel="icon" href="./assets/star.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./style.css">
+  <script type="module" src="./admin.js"></script>
+</head>
+<body class="admin-page">
+  <header class="topbar wrap"><a class="brand" href="./index.html"><span class="brand-symbol" aria-hidden="true">✧</span> KLASSENMOMENTE <span class="brand-divider">/</span> ATELIER</a><a class="text-link" href="./index.html">Zum Kalender ↗</a></header>
+  <main class="wrap admin-main">
+    <section id="login-panel" class="login-panel panel">
+      <div class="eyebrow">FÜR DIE LEHRKRAFT</div>
+      <h1>Ein bisschen<br><em>Weihnachtszauber.</em></h1>
+      <p>Hier gestaltest du die 24 Überraschungen deiner Klasse.</p>
+      <form id="login-form">
+        <label for="password">Admin-Passwort</label>
+        <input id="password" type="password" autocomplete="current-password" required maxlength="256">
+        <button class="button primary" type="submit">Lehrerbereich öffnen <span aria-hidden="true">→</span></button>
+      </form>
+      <p class="small muted">Clientseitige Bearbeitungssperre, kein sicherer Zugriffsschutz. Die veröffentlichten Inhalte sind öffentlich.</p>
+    </section>
+    <section id="admin-panel" hidden>
+      <div class="admin-heading"><div><div class="eyebrow">DEIN KREATIVATELIER</div><h1>Weihnachtskalender <em>verwalten</em></h1></div><button id="logout" class="button" type="button">Abmelden</button></div>
+      <div class="notice"><strong>Lokal bearbeiten, bewusst veröffentlichen.</strong> Änderungen erscheinen sofort im Kalender dieses Browsers. Für deine Klasse: Daten exportieren, die Datei <code>calendar-data.json</code> im GitHub-Repository ersetzen und veröffentlichen. Andere Geräte erhalten erst dann die neuen Inhalte.</div>
+      <section class="settings panel" aria-label="Kalendereinstellungen">
+        <label for="calendar-year">Kalenderjahr<input id="calendar-year" type="number" min="2020" max="2100" required></label>
+        <label class="check-label"><input id="preview-mode" type="checkbox"> Vorschau-/Testmodus <span class="muted small">(nur hier: alle Türchen testen)</span></label>
+        <button id="save-settings" type="button" class="button">Jahr speichern</button>
+      </section>
+      <div class="admin-layout">
+        <aside class="panel door-picker"><div class="section-label">24 KLEINE ÜBERRASCHUNGEN</div><h2>Türchen auswählen</h2><div id="admin-grid" class="admin-grid"></div><p class="small muted">Ausgefüllte Türchen sind mit einem Punkt markiert.</p></aside>
+        <section class="panel editor-panel" aria-labelledby="editor-heading">
+          <div class="editor-top"><h2 id="editor-heading">Türchen 1</h2><span id="save-state" class="small muted">Gespeichert</span></div>
+          <form id="door-form">
+            <label for="door-title-input">Titel<input id="door-title-input" name="title" maxlength="160" required></label>
+            <label for="door-text">Text<textarea id="door-text" name="text" rows="5" maxlength="12000"></textarea></label>
+            <div class="form-columns">
+              <label for="door-image">Bild-URL<input id="door-image" name="image" type="url" placeholder="https://…" maxlength="2048"></label>
+              <label for="image-file">Oder Bild auswählen<input id="image-file" type="file" accept="image/png,image/jpeg,image/webp,image/gif"><span class="small muted">Max. 1 MB; für viele Bilder besser URLs verwenden.</span></label>
+            </div>
+            <div id="image-preview" class="image-preview" hidden><img alt="Vorschau des ausgewählten Bildes"><button id="remove-image" type="button" class="button small">Bild entfernen</button></div>
+            <label for="door-image-alt">Bildbeschreibung (Barrierefreiheit)<input id="door-image-alt" name="imageAlt" maxlength="300"></label>
+            <div class="form-columns">
+              <label for="door-link">Link-URL<input id="door-link" name="link" type="url" placeholder="https://…" maxlength="2048"></label>
+              <label for="door-button">Button-Text<input id="door-button" name="buttonText" placeholder="Überraschung entdecken" maxlength="80"></label>
+            </div>
+            <label for="door-video">Video-URL<input id="door-video" name="video" type="url" placeholder="YouTube, Vimeo oder direktes MP4/WebM" maxlength="2048"><span class="small muted">Externe Videos werden erst nach einem bewussten Klick geladen.</span></label>
+            <label for="door-task">Aufgabe / Rätsel<textarea id="door-task" name="task" rows="3" maxlength="6000"></textarea></label>
+            <label for="door-answer">Optionale Lösung<textarea id="door-answer" name="answer" rows="2" maxlength="6000"></textarea></label>
+            <div class="form-columns">
+              <label for="door-release">Verfügbarkeit<select id="door-release" name="release"><option value="date">Automatisch ab dem Dezemberdatum</option><option value="open">Jetzt freigeben (auch vor dem Datum)</option><option value="locked">Gesperrt lassen</option></select></label>
+              <label for="door-theme">Türchenfarbe<select id="door-theme" name="theme"><option value="pine">Tannengrün</option><option value="berry">Bordeaux</option><option value="gold">Goldpapier</option><option value="frost">Winterblau</option></select></label>
+            </div>
+            <div class="editor-actions"><button class="button primary" type="submit">Änderungen speichern</button><button id="preview-door" class="button" type="button">Vorschau</button><button id="reset-door" class="button danger" type="button">Türchen zurücksetzen</button></div>
+          </form>
+        </section>
+      </div>
+      <section class="panel data-panel"><div><h2>Sichern & veröffentlichen</h2><p class="muted small">Export enthält die Kalenderinhalte, nicht das Passwort oder persönliche Öffnungen.</p></div><div class="data-actions"><button id="export" class="button" type="button">Alle Daten exportieren ↓</button><label class="button file-button">Daten importieren ↑<input id="import" type="file" accept=".json,application/json"></label><button id="reset-all" class="button danger" type="button">Kalender zurücksetzen</button></div></section>
+      <details class="panel password-panel"><summary>Admin-Passwort ändern</summary><form id="password-form"><label>Aktuelles Passwort<input name="currentPassword" type="password" autocomplete="current-password" required></label><label>Neues Passwort (mindestens 12 Zeichen)<input name="newPassword" type="password" autocomplete="new-password" minlength="12" maxlength="256" required></label><label>Neues Passwort wiederholen<input name="confirmPassword" type="password" autocomplete="new-password" minlength="12" maxlength="256" required></label><button class="button" type="submit">Passwort ändern & Konfiguration herunterladen</button><p class="small muted">Lokal sofort wirksam. Für andere Geräte die heruntergeladene auth-config.js im Repository ersetzen. Das ist weiterhin kein echter Zugriffsschutz.</p></form></details>
+    </section>
+    <p id="admin-status" class="status" role="status" aria-live="polite"></p>
+  </main>
+  <dialog id="door-dialog" class="door-dialog" aria-labelledby="door-title"><button class="dialog-close icon-button" type="button" aria-label="Vorschau schließen">×</button><div id="door-content"></div></dialog>
+  <noscript><p class="notice wrap">Bitte aktiviere JavaScript für den Lehrerbereich.</p></noscript>
+</body>
+</html>
