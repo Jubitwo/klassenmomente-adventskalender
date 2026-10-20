@@ -32,7 +32,7 @@
     </section>
     <section id="admin-panel" hidden>
       <div class="admin-heading"><div><div class="eyebrow">DEIN KREATIVATELIER</div><h1>Weihnachtskalender <em>verwalten</em></h1></div><button id="logout" class="button" type="button">Abmelden</button></div>
-      <div class="notice"><strong>Lokal bearbeiten, bewusst veröffentlichen.</strong> Änderungen erscheinen sofort im Kalender dieses Browsers. Für deine Klasse: Daten exportieren, die Datei <code>calendar-data.json</code> im GitHub-Repository ersetzen und veröffentlichen. Andere Geräte erhalten erst dann die neuen Inhalte.</div>
+      <div class="notice"><strong>Lokal bearbeiten, bewusst veröffentlichen.</strong> Speichern sichert deinen Entwurf in diesem Browser. Für die Klasse unten mit GitHub verbinden und „Für die Klasse veröffentlichen“ wählen. GitHub Pages aktualisiert die Website anschließend mit etwas Verzögerung. Alternativ weiterhin exportieren und manuell hochladen.</div>
       <section class="settings panel" aria-label="Kalendereinstellungen">
         <label for="calendar-year">Kalenderjahr<input id="calendar-year" type="number" min="2020" max="2100" required></label>
         <label class="check-label"><input id="preview-mode" type="checkbox"> Vorschau-/Testmodus <span class="muted small">(nur hier: alle Türchen testen)</span></label>
@@ -70,7 +70,20 @@
           </form>
         </section>
       </div>
-      <section class="panel data-panel"><div><h2>Sichern & veröffentlichen</h2><p class="muted small">Export enthält die Kalenderinhalte, nicht das Passwort oder persönliche Öffnungen.</p></div><div class="data-actions"><button id="export" class="button" type="button">Alle Daten exportieren ↓</button><label class="button file-button">Daten importieren ↑<input id="import" type="file" accept=".json,application/json"></label><button id="reset-all" class="button danger" type="button">Kalender zurücksetzen</button></div></section>
+      <section class="panel github-panel" aria-labelledby="github-heading">
+        <div class="editor-top"><h2 id="github-heading">Für die Klasse veröffentlichen</h2><span id="github-connection" class="small muted" role="status">Nicht verbunden</span></div>
+        <p class="small muted">Ziel: Jubitwo/klassenmomente-adventskalender · main. GitHub prüft deine Schreibberechtigung. Veröffentlicht werden alle lokal gespeicherten Inhalte und die Türchenanordnung, nicht das Passwort.</p>
+        <details><summary>Einmalig ein GitHub-Token einrichten</summary><ol class="small muted"><li>In GitHub unter Settings → Developer settings → Personal access tokens → Fine-grained tokens ein neues Token erstellen.</li><li>Resource owner: Jubitwo; Repository access: Only select repositories → klassenmomente-adventskalender.</li><li>Repository permissions: Contents → Read and write. Kurzes Ablaufdatum wählen. Keine weiteren Schreibrechte nötig.</li><li>Token nur unten eingeben, niemals im Chat, in Kalenderinhalten oder im Repository hinterlegen. Weitere Lehrkräfte benötigen eigene GitHub-Schreibrechte und eigene Tokens.</li></ol><a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener noreferrer" class="text-link">Token-Einstellungen auf GitHub öffnen ↗</a></details>
+        <form id="github-form" class="github-form">
+          <label for="github-token">GitHub-Zugriffstoken (nur für diese Sitzung)<input id="github-token" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" required maxlength="255" aria-describedby="github-token-note"></label>
+          <button id="github-connect" class="button" type="submit">Mit GitHub verbinden</button>
+        </form>
+        <p id="github-token-note" class="small muted">Das Token bleibt nur im Arbeitsspeicher und wird beim Neuladen, Abmelden oder Trennen verworfen. Es wird ausschließlich an api.github.com gesendet. Nur auf einem vertrauenswürdigen Gerät verwenden.</p>
+        <div class="data-actions"><button id="github-load" class="button" type="button" disabled>GitHub-Stand laden</button><button id="github-publish" class="button primary" type="button" disabled>Für die Klasse veröffentlichen</button><button id="github-disconnect" class="button" type="button" disabled>Verbindung trennen</button></div>
+        <p id="github-result" class="small" role="status" aria-live="polite"></p>
+        <a class="text-link" href="https://github.com/Jubitwo/klassenmomente-adventskalender/actions" target="_blank" rel="noopener noreferrer">Veröffentlichungsstatus auf GitHub prüfen ↗</a>
+      </section>
+      <section class="panel data-panel"><div><h2>Lokale Sicherungen</h2><p class="muted small">Export enthält die Kalenderinhalte, nicht das Passwort oder persönliche Öffnungen.</p></div><div class="data-actions"><button id="export" class="button" type="button">Alle Daten exportieren ↓</button><label class="button file-button">Daten importieren ↑<input id="import" type="file" accept=".json,application/json"></label><button id="reset-all" class="button danger" type="button">Kalender zurücksetzen</button></div></section>
       <details class="panel password-panel"><summary>Admin-Passwort ändern</summary><form id="password-form"><label>Aktuelles Passwort<input name="currentPassword" type="password" autocomplete="current-password" required></label><label>Neues Passwort (mindestens 12 Zeichen)<input name="newPassword" type="password" autocomplete="new-password" minlength="12" maxlength="256" required></label><label>Neues Passwort wiederholen<input name="confirmPassword" type="password" autocomplete="new-password" minlength="12" maxlength="256" required></label><button class="button" type="submit">Passwort ändern & Konfiguration herunterladen</button><p class="small muted">Lokal sofort wirksam. Für andere Geräte die heruntergeladene auth-config.js im Repository ersetzen. Das ist weiterhin kein echter Zugriffsschutz.</p></form></details>
     </section>
     <p id="admin-status" class="status" role="status" aria-live="polite"></p>

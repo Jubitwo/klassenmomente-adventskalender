@@ -1,11 +1,14 @@
 import { CalendarStorage, validateCalendar, isAvailable, downloadFile, reportError } from './storage.js';
 import { Auth } from './auth.js';
 import { setupDialog, showDoor } from './ui.js';
+import { GitHubPublisher } from './github.js';
 
 const storage = new CalendarStorage();
 const status = document.querySelector('#admin-status');
 const form = document.querySelector('#door-form');
 const dialog = setupDialog();
+const publisher = new GitHubPublisher();
+let githubBusy = false;
 let calendar;
 let selectedDay = 1;
 let uploadedImage = '';
@@ -39,10 +42,32 @@ function confirmDiscard() {
   return !dirty || confirm('Ungespeicherte Änderungen verwerfen?');
 }
 function showLogin() {
+  publisher.disconnect();
+  updateGitHub();
+  document.querySelector('#github-result').textContent = '';
   document.querySelector('#admin-panel').hidden = true;
   document.querySelector('#login-panel').hidden = false;
   document.querySelector('#password').value = '';
   document.querySelector('#password').focus();
+}
+function updateGitHub() {
+  const connected = publisher.connected;
+  document.querySelector('#github-connection').textContent = githubBusy ? 'Anfrage läuft …' : connected ? 'Mit GitHub verbunden' : 'Nicht verbunden';
+  document.querySelector('#github-form').hidden = connected;
+  document.querySelector('#github-token').value = '';
+  document.querySelector('#github-token').disabled = githubBusy;
+  document.querySelector('#github-connect').disabled = githubBusy;
+  for (const id of ['github-load', 'github-publish', 'github-disconnect']) document.getElementById(id).disabled = githubBusy || !connected;
+}
+async function githubAction(action) {
+  if (githubBusy) return;
+  githubBusy = true;
+  updateGitHub();
+  try { await action(); }
+  catch (error) {
+    document.querySelector('#github-result').textContent = error.message;
+    throw error;
+  } finally { githubBusy = false; updateGitHub(); }
 }
 function renderPicker() {
   const grid = document.querySelector('#admin-grid');
@@ -224,6 +249,60 @@ on('#reset-all', 'click', async () => {
   renderOrder();
   message('Der veröffentlichte Standardkalender wurde wiederhergestellt.');
 });
+on('#github-form', 'submit', async () => {
+  const token = document.querySelector('#github-token').value;
+  await githubAction(async () => {
+    await publisher.connect(token);
+    requireSession();
+    document.querySelector('#github-result').textContent = 'Verbunden. Lade vor dem Bearbeiten den aktuellen GitHub-Stand oder veröffentliche bewusst deinen vorhandenen lokalen Entwurf.';
+  });
+});
+on('#github-disconnect', 'click', () => {
+  publisher.disconnect();
+  updateGitHub();
+  document.querySelector('#github-result').textContent = 'GitHub-Verbindung getrennt. Das Token wurde verworfen.';
+});
+on('#github-load', 'click', async () => {
+  if (!confirm('Lokale Kalenderdaten und ungespeicherte Änderungen durch den aktuellen GitHub-Stand ersetzen? Vorher bei Bedarf exportieren.')) return;
+  await githubAction(async () => {
+    const remote = await publisher.loadCalendar();
+    requireSession();
+    calendar = await storage.saveCalendar(remote);
+    document.querySelector('#calendar-year').value = calendar.year;
+    selectDoor(selectedDay);
+    renderOrder();
+    document.querySelector('#github-result').textContent = 'Aktueller GitHub-Stand lokal geladen. Du kannst jetzt bearbeiten und anschließend veröffentlichen.';
+  });
+});
+on('#github-publish', 'click', async () => {
+  if (dirty) throw new Error('Bitte die aktuellen Türchenänderungen zuerst speichern oder bewusst verwerfen.');
+  if (Number(document.querySelector('#calendar-year').value) !== calendar.year) throw new Error('Bitte das geänderte Kalenderjahr zuerst speichern.');
+  if (!confirm('Alle lokal gespeicherten Inhalte und die Anordnung öffentlich für die Klasse auf GitHub veröffentlichen? Der bestehende GitHub-Kalender wird ersetzt. Keine vertraulichen Daten veröffentlichen.')) return;
+  await githubAction(async () => {
+    const snapshot = await storage.loadCalendar();
+    requireSession();
+    const commitURL = await publisher.publish(snapshot);
+    const result = document.querySelector('#github-result');
+    result.textContent = 'Auf GitHub gespeichert. Die Website ist noch nicht sofort aktualisiert; bitte den Pages-Status prüfen und anschließend den Schülerkalender neu laden. ';
+    const link = document.createElement('a');
+    link.href = commitURL;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    link.textContent = 'Commit ansehen ↗';
+    result.append(link);
+  });
+});
+window.addEventListener('pagehide', () => { publisher.disconnect(); updateGitHub(); });
+setInterval(() => {
+  if (!publisher.connected) return;
+  try {
+    if (!Auth.isLoggedIn()) showLogin();
+  } catch (error) {
+    publisher.disconnect();
+    updateGitHub();
+    reportError(status, error);
+  }
+}, 30000);
 on('#password-form', 'submit', async e => {
   const data = new FormData(e.target);
   if (data.get('newPassword') !== data.get('confirmPassword')) throw new Error('Die neuen Passwörter stimmen nicht überein.');

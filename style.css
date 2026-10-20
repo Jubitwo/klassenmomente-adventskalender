@@ -163,6 +163,13 @@ code { color: var(--gold); }
 .data-panel { margin-top: 25px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
 .data-panel h2 { margin-bottom: 8px; }
 .data-panel p { margin: 0; }
+.github-panel { margin-top: 25px; }
+.github-form { display: flex; align-items: flex-end; flex-wrap: wrap; gap: 12px; margin-top: 22px; }
+.github-form label { flex: 1 1 240px; margin: 0; }
+.github-panel .data-actions { margin-top: 18px; }
+.github-panel details { margin-bottom: 18px; }
+.github-panel ol { padding-left: 22px; }
+.github-panel li { margin-bottom: 8px; }
 .file-button { margin: 0; position: relative; overflow: hidden; }
 .file-button input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
 .file-button:focus-within { outline: 3px solid var(--gold); outline-offset: 5px; }

@@ -11,8 +11,8 @@ Wintermelodie. Keine Abhängigkeiten, kein Build, kein Tracking.
 - [GitHub-Repository](https://github.com/Jubitwo/klassenmomente-adventskalender)
 
 Die veröffentlichte Version enthält Beispielinhalte und den unten dokumentierten
-Demo-Zugang. Änderungen im Lehrerbereich bleiben lokal, bis die exportierte
-Kalenderdatei im Repository veröffentlicht wird. GitHub Pages veröffentlicht
+Demo-Zugang. Änderungen im Lehrerbereich bleiben lokal, bis sie über die
+GitHub-Verbindung veröffentlicht oder manuell exportiert und hochgeladen werden. GitHub Pages veröffentlicht
 den Stand des Branches `main` aus dem Wurzelverzeichnis.
 
 ## Starten
@@ -40,6 +40,7 @@ Web Crypto benötigt HTTPS oder localhost.
 | `storage.js` | Validierung und austauschbare, asynchrone Datenzugriffsschicht |
 | `ui.js` | Gemeinsame Inhaltsanzeige, Modal und optionale Atmosphäre |
 | `auth.js`, `auth-config.js` | PBKDF2-Passwortprüfung und zeitlich begrenzter UI-Sitzungsmarker |
+| `github.js` | Optionale direkte GitHub-Veröffentlichung, temporäres Token und Konfliktprüfung |
 | `assets/` | Bereitgestelltes Schullogo und eigene SVG-Motive, ohne externe Bild- oder Schriftanbieter |
 
 ## Schullogo
@@ -84,7 +85,7 @@ sortiert. „Nach Datum sortieren“ stellt die Reihenfolge 1–24 wieder her.
 
 Beide Aktionen speichern die Anordnung sofort lokal, ohne ungespeicherte
 Editorinhalte zu speichern oder zu verwerfen. Für die Klasse anschließend
-exportieren und veröffentlichen. Die JSON-Datei enthält dafür das Feld `order`
+veröffentlichen (oder exportieren und manuell hochladen). Die JSON-Datei enthält dafür das Feld `order`
 mit allen 24 Tagesnummern. Ältere Dateien ohne dieses Feld laden weiterhin
 in der Reihenfolge 1–24. Die Anordnung bleibt bei Import/Export erhalten.
 
@@ -120,8 +121,8 @@ nicht Teil der lokalen App.
 - Kalenderänderungen bleiben im Browserprofil auf derselben Website.
 - Geöffnete Schüler- und Lehrertabs desselben Browsers synchronisieren
   gespeicherte Kalenderänderungen sofort über das `storage`-Ereignis.
-- Andere Geräte bekommen Änderungen erst nach Veröffentlichung der exportierten
-  Standarddatei. Export allein veröffentlicht noch nichts.
+- Andere Geräte bekommen Änderungen erst nach GitHub-Veröffentlichung und
+  erfolgreichem Pages-Deployment. Export allein veröffentlicht noch nichts.
 - Jeder Schüler zählt seine selbst angesehenen Türchen lokal. „Geöffnet“ in
   der Fortschrittsanzeige bedeutet **angesehen**, nicht lediglich freigegeben.
 - Fortschritt gehört zum Kalenderjahr. Ein neues Jahr beginnt bei null.
@@ -170,13 +171,83 @@ und zweimal ein neues Passwort (mindestens 12 Zeichen) eingeben.
 3. Nach dem Deployment die dort angezeigte HTTPS-Adresse öffnen.
    Relative Pfade funktionieren auch unter `https://name.github.io/repository/`.
 4. Nur den Kalenderlink an die Klasse weitergeben. Kein Adminzugang erforderlich.
-5. Neue Inhalte: lokal speichern → exportieren → die veröffentlichte
-   `calendar-data.json` ersetzen → committen/hochladen → Deployment abwarten.
+5. Neue Inhalte: lokal speichern → mit GitHub verbinden → „Für die Klasse
+   veröffentlichen“ → Deployment abwarten. Alternativ exportieren und die
+   veröffentlichte `calendar-data.json` manuell ersetzen.
 6. Mit einem anderen Browserprofil oder Gerät den veröffentlichten Stand prüfen.
    Cache oder ein noch offener Tab können ein Neuladen erforderlich machen.
 
 Nicht versehentlich Inhalte veröffentlichen, für die keine Nutzungsrechte vorliegen.
 Keine personenbezogenen Schülerdaten, vertraulichen Aufgaben oder Geheimnisse ablegen.
+
+## Direkt im Lehrerbereich auf GitHub veröffentlichen
+
+Das Repository ist die zentrale Quelle für veröffentlichte Kalenderdaten.
+`Speichern` sichert weiterhin nur einen lokalen Entwurf. Erst die getrennte
+Aktion **„Für die Klasse veröffentlichen“** schreibt `calendar-data.json` als
+Commit auf `main`. GitHub Pages übernimmt danach die Veröffentlichung.
+Ein erfolgreicher Commit ist noch kein erfolgreiches Pages-Deployment.
+Den verlinkten Actions-Status prüfen und den Schülerkalender anschließend
+neu laden. Ein offener Schülerkalender lädt beim Zurückkehren zum Tab erneut.
+
+### Einmalige Einrichtung des persönlichen Tokens
+
+1. Im eigenen GitHub-Konto unter **Settings → Developer settings → Personal
+   access tokens → Fine-grained tokens** ein Token erstellen.
+2. **Resource owner: Jubitwo**, **Only select repositories** und ausschließlich
+   **klassenmomente-adventskalender** auswählen.
+3. **Repository permissions → Contents: Read and write** erlauben. Metadata
+   wird von GitHub automatisch mitgeführt. Keine Workflow-, Admin- oder
+   sonstigen Schreibrechte erforderlich; ein kurzes Ablaufdatum wählen.
+4. Falls mehrere Lehrkräfte veröffentlichen sollen, benötigen sie eigene
+   GitHub-Konten mit Schreibzugriff auf dieses Repository und jeweils eigene
+   passende Tokens. Organisationsrichtlinien können zusätzliche Freigaben
+   erfordern. Ein Token allein erteilt keine über das Konto hinausgehenden Rechte.
+5. Das Token ausschließlich im Passwortfeld „GitHub-Zugriffstoken“ im
+   Lehrerbereich eingeben, dann **„Mit GitHub verbinden“** wählen.
+
+Token nicht im Chat teilen, nicht als Kalenderinhalt einfügen und nicht ins
+Repository committen. Die App hält es nur im Arbeitsspeicher und sendet es
+ausschließlich an `https://api.github.com`. Sie legt es nicht in Cookies,
+localStorage, sessionStorage, URLs oder Exporten ab. Nach Neuladen,
+Verbindungstrennung, Abmelden oder Ablauf der Adminsitzung ist neu zu verbinden.
+
+**Wichtig:** Das Token hat Schreibrechte für die Inhalte des ganzen ausgewählten
+Repositories, nicht nur für die Kalenderdatei. Die App verwendet es ausschließlich
+für diese Datei. Nur vertrauenswürdige Geräte und Browser verwenden; Tokens können
+durch schädliche Erweiterungen oder manipulierten Frontend-Code ausgelesen werden.
+Bei Verdacht sofort in GitHub widerrufen. Das Kalenderpasswort ist keine
+GitHub-Authentifizierung; ohne eigenes Token können Besucher keine zentralen
+Änderungen vornehmen.
+
+### Empfohlener Arbeitsablauf
+
+1. Mit GitHub verbinden und **„GitHub-Stand laden“**, bevor du bearbeitest.
+   Dies ersetzt nach Rückfrage den lokalen Kalender einschließlich ungespeicherter
+   Türchenänderungen. Vorher bei Bedarf exportieren.
+2. Bearbeiten und lokal speichern, bei Bedarf Türchenanordnung mischen.
+3. **„Für die Klasse veröffentlichen“** wählen und bestätigen. Ungespeicherte
+   Türchenänderungen oder ein ungespeichertes Kalenderjahr blockieren die Aktion.
+4. Commit-Link und Pages-Status prüfen; auf einem Schülergerät neu laden.
+5. Verbindung trennen, wenn du fertig bist.
+
+Beim Verbinden wird der GitHub-Dateistand vermerkt, aber nicht automatisch
+dein lokaler Entwurf ersetzt. Bei der Veröffentlichung wird der lokale Kalender
+als Ganzes übertragen. Er kann ältere Inhalte enthalten; deshalb vorher bewusst
+den aktuellen GitHub-Stand laden oder einen vorhandenen Entwurf prüfen.
+
+Ändert eine andere Person die Kalenderdatei nach dem Verbinden oder Laden,
+verhindern Dateiprüfwert und GitHubs atomare SHA-Prüfung ein stilles Überschreiben.
+Bei Konflikt: lokal exportieren, GitHub-Stand laden, eigene Änderungen erneut
+einarbeiten. Es gibt keine automatische Zusammenführung. Eine reine Änderung
+anderer Repository-Dateien blockiert die Kalenderveröffentlichung nicht.
+
+Einlesen aus GitHub verwendet bei größeren Dateien die Blob-API; Kalenderdaten
+sind auf 8 MB begrenzt. Branch-Schutz kann direkte Commits verhindern; dann
+die Repository-Regeln nutzen statt sie zu umgehen. Bei Netzwerkabbruch während
+eines Commits zuerst auf GitHub nachsehen: Die Anfrage könnte dort bereits
+erfolgreich gewesen sein. Ein leseberechtigtes Token lässt sich verbinden,
+aber GitHub lehnt die Veröffentlichung ohne Schreibrechte ausdrücklich ab.
 
 ## Sicherheitsgrenzen
 
@@ -189,13 +260,18 @@ oder die JSON-Datei direkt lesen – auch Inhalte zukünftiger Türchen.
 PBKDF2 vermeidet ein Klartextpasswort in den Anwendungsdateien und verteuert
 Passwortraten, verhindert aber keine Umgehung des clientseitigen Codes.
 Der einstündige Sitzungsmarker ist Komfort, kein Authentifizierungstoken.
-Die App besitzt keine Schreibrechte für euer GitHub-Repository; Besucher können
-die zentral veröffentlichte Datei über diese App nicht verändern.
+Ohne ein individuell eingegebenes, schreibberechtigtes GitHub-Token besitzt
+die App keine Schreibrechte für das Repository. Die tatsächliche Schreibprüfung
+übernimmt GitHub, nicht die clientseitige Passwortsperre.
 Inhalte werden mit `textContent` ausgegeben; nur feste eigene SVG-Vorlagen
 verwenden `innerHTML`. Importdateien werden strikt auf Schema, Größen und URLs
 geprüft. `javascript:` und HTML/SVG-Daten-URLs sind nicht erlaubt.
 
-## Später zentrale Speicherung ergänzen
+## Später eine Echtzeit-Datenbank ergänzen
+
+GitHub dient bereits als zentrale, versionierte Veröffentlichungsquelle.
+Für sofortige Live-Updates, echte Benutzeranmeldung ohne persönliche Tokens
+oder geheime zukünftige Türchen kann zusätzlich eine Backend-Lösung sinnvoll sein.
 
 `CalendarStorage` kapselt die Datenzugriffe:
 
@@ -233,8 +309,11 @@ Der zusätzliche Test läuft ohne Installation mit einem aktuellen Node.js:
 
 ```sh
 node tests/storage.test.mjs
+node tests/github.test.mjs
 ```
 
 Browser-Prüfung: 24 Türchen, vor Dezember verschlossen, Adminanmeldung,
 Vorschau, Speichern mit zweitem Schülertab, Import/Export, mobile Darstellung,
-Tastaturbedienung und Modal schließen. Musik startet niemals automatisch.
+Tastaturbedienung und Modal schließen. Die GitHub-Tests simulieren API-Antworten,
+ohne echte Tokens oder Schreibzugriffe. Eine echte Veröffentlichung erfordert
+das persönlich eingerichtete Token. Musik startet niemals automatisch.
