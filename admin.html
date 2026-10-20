@@ -37,6 +37,10 @@
         <label for="calendar-year">Kalenderjahr<input id="calendar-year" type="number" min="2020" max="2100" required></label>
         <label class="check-label"><input id="preview-mode" type="checkbox"> Vorschau-/Testmodus <span class="muted small">(nur hier: alle Türchen testen)</span></label>
         <button id="save-settings" type="button" class="button">Jahr speichern</button>
+        <div class="layout-settings">
+          <div class="layout-heading"><div><h2>Anordnung im Schülerkalender</h2><p id="order-help" class="small muted">Nur die Positionen werden gemischt. Inhalte und Freigabedaten bleiben beim jeweiligen Türchen. Die neue Anordnung wird sofort lokal gespeichert.</p></div><div class="data-actions"><button id="shuffle-doors" class="button" type="button" aria-describedby="order-help">Türchen mischen</button><button id="sort-doors" class="button" type="button">Nach Datum sortieren</button></div></div>
+          <ol id="order-preview" class="order-preview" aria-label="Gespeicherte Türchenreihenfolge im Schülerkalender"></ol>
+        </div>
       </section>
       <div class="admin-layout">
         <aside class="panel door-picker"><div class="section-label">24 KLEINE ÜBERRASCHUNGEN</div><h2>Türchen auswählen</h2><div id="admin-grid" class="admin-grid"></div><p class="small muted">Ausgefüllte Türchen sind mit einem Punkt markiert.</p></aside>

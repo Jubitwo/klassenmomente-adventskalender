@@ -65,6 +65,15 @@ function renderPicker() {
     grid.append(button);
   }
 }
+function renderOrder() {
+  const preview = document.querySelector('#order-preview');
+  preview.replaceChildren();
+  for (const day of calendar.order) {
+    const item = document.createElement('li');
+    item.textContent = String(day).padStart(2, '0');
+    preview.append(item);
+  }
+}
 function updateImagePreview() {
   const value = uploadedImage || form.elements.image.value.trim();
   const preview = document.querySelector('#image-preview');
@@ -98,6 +107,7 @@ async function showAdmin() {
   document.querySelector('#login-panel').hidden = true;
   document.querySelector('#admin-panel').hidden = false;
   selectDoor(selectedDay);
+  renderOrder();
 }
 on('#login-form', 'submit', async () => {
   const button = document.querySelector('#login-form button');
@@ -167,7 +177,19 @@ on('#save-settings', 'click', async () => {
   if (!input.reportValidity()) return;
   const current = await storage.loadCalendar();
   calendar = await storage.saveCalendar({ ...current, year: Number(input.value) });
+  renderOrder();
   message(`Kalenderjahr ${calendar.year} gespeichert.`);
+});
+on('#shuffle-doors', 'click', async () => {
+  calendar = await storage.shuffleDoorOrder();
+  renderOrder();
+  message('Türchenanordnung gemischt und lokal gespeichert. Inhalte und Freigaben sind unverändert. Für die Klasse bitte exportieren und veröffentlichen.');
+});
+on('#sort-doors', 'click', async () => {
+  const current = await storage.loadCalendar();
+  calendar = await storage.saveCalendar({ ...current, order: current.doors.map(door => door.day) });
+  renderOrder();
+  message('Türchenanordnung nach Datum sortiert und lokal gespeichert.');
 });
 on('#reset-door', 'click', async () => {
   if (!confirm(`Türchen ${selectedDay} auf den veröffentlichten Standardinhalt zurücksetzen? Ungespeicherte Änderungen gehen verloren.`)) return;
@@ -190,6 +212,7 @@ on('#import', 'change', async e => {
     calendar = await storage.importCalendar(await file.text());
     document.querySelector('#calendar-year').value = calendar.year;
     selectDoor(selectedDay);
+    renderOrder();
     message('Kalender importiert und lokal gespeichert.');
   } finally { e.target.value = ''; }
 });
@@ -198,6 +221,7 @@ on('#reset-all', 'click', async () => {
   calendar = await storage.resetCalendar();
   document.querySelector('#calendar-year').value = calendar.year;
   selectDoor(1);
+  renderOrder();
   message('Der veröffentlichte Standardkalender wurde wiederhergestellt.');
 });
 on('#password-form', 'submit', async e => {

@@ -74,6 +74,34 @@ allgemeine Erlaubnis zur Weiterverwendung außerhalb dieses Schulkalenders.
 9. „Zurücksetzen“ lädt den aktuell veröffentlichten Standardinhalt, nicht
    zwingend die ursprünglichen Beispiele. Vorher gegebenenfalls exportieren.
 
+### Türchenanordnung mischen
+
+In den Kalendereinstellungen „Türchen mischen“ anklicken. Die Übersicht darunter
+zeigt die gespeicherte Reihenfolge für die Schüleransicht. Nur die Positionen
+ändern sich: Nummer, Inhalt, Farbe, Freigabedatum und Lesefortschritt bleiben
+beim jeweiligen Türchen. Der Lehrereditor bleibt zur Orientierung nach Tagen
+sortiert. „Nach Datum sortieren“ stellt die Reihenfolge 1–24 wieder her.
+
+Beide Aktionen speichern die Anordnung sofort lokal, ohne ungespeicherte
+Editorinhalte zu speichern oder zu verwerfen. Für die Klasse anschließend
+exportieren und veröffentlichen. Die JSON-Datei enthält dafür das Feld `order`
+mit allen 24 Tagesnummern. Ältere Dateien ohne dieses Feld laden weiterhin
+in der Reihenfolge 1–24. Die Anordnung bleibt bei Import/Export erhalten.
+
+### PNG und PDF verwenden
+
+PNG (auch JPEG, WebP und GIF) kann direkt über „Bild auswählen“ mit maximal
+1 MB pro Bild hinzugefügt werden. Das Bild wird nach dem Speichern mit den
+Kalenderdaten exportiert. Der Browserspeicher ist begrenzt; für viele oder
+große Bilder besser veröffentlichte Bild-URLs nutzen.
+
+PDFs werden nicht direkt im Lehrereditor hochgeladen. Die PDF-Datei beispielsweise
+über GitHub in `assets/` hochladen und ihre öffentliche HTTPS-Adresse im Feld
+„Link-URL“ eintragen. Als Button-Text etwa „Arbeitsblatt öffnen“ wählen.
+Die Schülerinnen und Schüler öffnen die PDF dann über diesen Button in einem
+neuen Tab. Ein lokaler Dateipfad vom eigenen Computer funktioniert für die
+Klasse nicht.
+
 Text ist bewusst reiner Text, kein HTML/Markdown. Zeilenumbrüche bleiben erhalten.
 Quiz und Rätsel können Aufgaben mit aufklappbarer Lösung sein; es gibt keine
 automatische Bewertung oder Speicherung personenbezogener Antworten.
@@ -176,6 +204,7 @@ loadCalendar()
 saveCalendar(calendar)
 getDoor(day)
 saveDoor(day, data)
+shuffleDoorOrder()
 resetCalendar()
 exportCalendar()
 importCalendar(jsonText)

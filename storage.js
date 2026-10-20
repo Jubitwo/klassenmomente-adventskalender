@@ -34,7 +34,11 @@ export function validateCalendar(input) {
     for (const field of ['image', 'link', 'video']) if (door[field]) safeURL(door[field], { image: field === 'image' });
     return door;
   }).sort((a, b) => a.day - b.day);
-  return { version: 1, year: input.year, doors };
+  const order = input.order ?? doors.map(door => door.day);
+  if (!Array.isArray(order) || order.length !== 24 || new Set(order).size !== 24 || order.some(day => !Number.isInteger(day) || day < 1 || day > 24)) {
+    throw new Error('Die Türchenanordnung muss jede Nummer von 1 bis 24 genau einmal enthalten.');
+  }
+  return { version: 1, year: input.year, doors, order: [...order] };
 }
 
 // Austauschpunkt für Firebase, Supabase oder eine eigene API:
@@ -71,6 +75,14 @@ export class CalendarStorage {
     const index = calendar.doors.findIndex(door => door.day === day);
     if (index < 0) throw new Error('Türchen nicht gefunden.');
     calendar.doors[index] = { ...data, day };
+    return this.saveCalendar(calendar);
+  }
+  async shuffleDoorOrder() {
+    const calendar = await this.loadCalendar();
+    for (let i = calendar.order.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [calendar.order[i], calendar.order[j]] = [calendar.order[j], calendar.order[i]];
+    }
     return this.saveCalendar(calendar);
   }
   async resetCalendar() {

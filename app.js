@@ -24,7 +24,8 @@ function render() {
   document.querySelector('#progress').value = opened.size;
   const activeDay = document.activeElement?.dataset.day;
   grid.replaceChildren();
-  for (const door of calendar.doors) {
+  for (const day of calendar.order) {
+    const door = calendar.doors.find(item => item.day === day);
     const available = isAvailable(door, calendar.year, now);
     const today = now.getFullYear() === calendar.year && now.getMonth() === 11 && now.getDate() === door.day;
     const visited = opened.has(door.day);

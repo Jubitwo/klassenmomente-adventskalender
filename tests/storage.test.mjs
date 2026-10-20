@@ -50,10 +50,29 @@ await asyncCheck(async () => assert.equal((await storage.loadCalendar()).doors.l
 await storage.saveDoor(6, { ...door, title: 'Geändert', release: 'open' });
 await asyncCheck(async () => assert.equal((await storage.getDoor(6)).title, 'Geändert'));
 check(() => assert.equal(events, 1));
+const sortedOrder = Array.from({ length: 24 }, (_, i) => i + 1);
+check(() => assert.deepEqual(validateCalendar(defaults).order, sortedOrder));
+for (const order of [[], sortedOrder.slice(1), sortedOrder.map(() => 1), [...sortedOrder.slice(0, 23), 25], [...sortedOrder.slice(0, 23), '24'], 'random']) {
+  check(() => assert.throws(() => validateCalendar({ ...defaults, order })));
+}
+const beforeShuffle = await storage.loadCalendar();
+const originalRandom = Math.random;
+let shuffled;
+try {
+  Math.random = () => 0;
+  shuffled = await storage.shuffleDoorOrder();
+} finally { Math.random = originalRandom; }
+check(() => assert.notDeepEqual(shuffled.order, sortedOrder));
+check(() => assert.deepEqual([...shuffled.order].sort((a, b) => a - b), sortedOrder));
+check(() => assert.deepEqual(shuffled.doors, beforeShuffle.doors));
+await asyncCheck(async () => assert.deepEqual((await storage.loadCalendar()).order, shuffled.order));
 const exported = await storage.exportCalendar();
 check(() => assert.equal(JSON.parse(exported).doors[5].title, 'Geändert'));
 await storage.resetCalendar();
 await storage.importCalendar(exported);
+await asyncCheck(async () => assert.deepEqual((await storage.loadCalendar()).order, shuffled.order));
+await storage.saveDoor(6, { ...door, title: 'Geändert', release: 'open' });
+await asyncCheck(async () => assert.deepEqual((await storage.loadCalendar()).order, shuffled.order));
 await asyncCheck(async () => assert.equal((await storage.getDoor(6)).release, 'open'));
 await asyncCheck(async () => assert.rejects(() => storage.importCalendar('{broken'), /gültiges JSON/));
 await asyncCheck(async () => assert.rejects(() => storage.importCalendar('{"version":99}')));
@@ -87,4 +106,4 @@ check(() => assert.equal(Auth.isLoggedIn(), false));
 check(() => assert.equal(newConfig.includes('ein-neues-passwort-2026'), false));
 await asyncCheck(async () => assert.equal(await Auth.verify('ein-neues-passwort-2026'), true));
 await asyncCheck(async () => assert.equal(await Auth.verify('winterzauber-2026'), false));
-console.log(`${checks} Prüfungen erfolgreich: Schema, URLs, Datumsgrenzen, Speicherung, Import/Export, Fehlerfälle und PBKDF2.`);
+console.log(`${checks} Prüfungen erfolgreich: Schema, Anordnung, URLs, Datumsgrenzen, Speicherung, Import/Export, Fehlerfälle und PBKDF2.`);

@@ -137,6 +137,12 @@ input[type="checkbox"] { width: 18px; min-height: 18px; height: 18px; accent-col
 code { color: var(--gold); }
 .settings { display: flex; align-items: center; flex-wrap: wrap; gap: 25px; padding: 20px 25px; margin-bottom: 25px; }
 .settings label { margin: 0; }
+.layout-settings { flex-basis: 100%; min-width: 0; border-top: 1px solid var(--border); padding-top: 20px; }
+.layout-heading { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+.layout-heading h2 { font-size: 22px; margin-bottom: 6px; }
+.layout-heading p { margin-bottom: 0; max-width: 560px; }
+.order-preview { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 6px; padding: 0; margin: 18px 0 0; list-style: none; }
+.order-preview li { border: 1px solid var(--border); border-radius: 4px; padding: 6px 0; text-align: center; color: var(--gold); font-size: 11px; }
 .settings input[type="number"] { width: 120px; }
 .check-label { flex-direction: row; align-items: center; flex-wrap: wrap; flex: 1; }
 .admin-layout { display: grid; grid-template-columns: 280px minmax(0,1fr); gap: 25px; align-items: start; }
@@ -174,6 +180,8 @@ code { color: var(--gold); }
 @media (max-width: 700px) { .wrap { width: calc(100% - 36px); } .topbar { min-height: 80px; } .brand { font-size: 9px; gap: 7px; letter-spacing: 1.3px; } .brand-divider { display: none; } .brand-symbol { font-size: 26px; } .top-actions { gap: 6px; } .icon-button { width: 36px; height: 36px; font-size: 18px; } .hero { padding: 55px 0 37px; } .hero h1 { font-size: clamp(33px,7.8vw,53px); letter-spacing: -1.1px; } .hero-description { font-size: 13px; } .eyebrow { font-size: 8px; letter-spacing: 2px; } .branch { display: none; } .hero-star { font-size: 25px; top: 25px; right: 8%; } .hero-meta { font-size: 8px; gap: 8px; } .calendar-toolbar { align-items: flex-start; flex-direction: column; gap: 12px; } .progress-block { width: 100%; text-align: left; } .calendar-grid { grid-template-columns: repeat(3,1fr); gap: 10px; } .door { aspect-ratio: .87; padding: 12px 11px 10px; } .door-day { font-size: 29px; } .door-motif svg { width: 52px; height: 52px; } .door-bottom { font-size: 7px; letter-spacing: .6px; } .door.today { outline-offset: 1px; } .closing-note { padding: 30px 0; gap: 14px; } .closing-note p { font-size: 16px; } .site-footer { font-size: 9px; padding-bottom: 25px; } .door-dialog { padding: 38px 23px 28px; } .door-dialog h2 { font-size: 29px; } .admin-heading h1 { font-size: 30px; } .admin-heading { align-items: flex-start; } .admin-layout { grid-template-columns: 1fr; } .door-picker { position: static; } .admin-grid { grid-template-columns: repeat(8,1fr); gap: 6px; } .picker-button { min-height: 38px; font-size: 11px; } .login-panel { padding: 28px; margin: 15px auto; } .login-panel h1 { font-size: 35px; } .settings { gap: 18px; } .check-label { flex-basis: 100%; } .editor-top { flex-wrap: wrap; } .editor-actions .primary { width: 100%; } }
 @media (max-width: 370px) { .brand { letter-spacing: .7px; font-size: 8px; } .calendar-grid { grid-template-columns: repeat(2,1fr); } .door { aspect-ratio: 1; } .hero h1 { font-size: 30px; } .admin-grid { grid-template-columns: repeat(6,1fr); } }
 @media (max-width: 700px) {
+  .admin-heading { flex-wrap: wrap; }
+  .order-preview { grid-template-columns: repeat(6, minmax(0, 1fr)); }
   .school-brand { flex-direction: column; align-items: flex-start; gap: 9px; padding: 16px 0; }
   .school-logo { padding: 10px 13px; }
   .school-logo img { width: 100px; }
